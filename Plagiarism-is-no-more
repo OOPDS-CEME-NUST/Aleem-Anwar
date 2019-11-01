@@ -1,0 +1,204 @@
+#pragma once
+#include<iostream>
+using namespace std;
+struct node
+{
+	double value;
+	node *next;
+};
+
+class list
+{
+private:
+	node * head, *tail;
+public:
+	list();
+
+	void createnode(double input);
+	void show_list();
+	void delete_first();
+	void delete_last();
+	void insert_start(double input);
+	void insert_last(double input);
+	void delete_position(int index);
+	void insert_position(int index, double input);
+};
+
+list :: list()
+{
+	head = NULL;
+	tail = NULL;
+}
+
+void list :: createnode(double input)
+{
+	node *temp = new node;
+	temp->value = input;
+	temp->next = NULL;
+	if (head == NULL)
+	{
+		head = temp;
+		tail = temp;
+	}
+	else
+	{
+		tail->next = temp;
+		tail = temp;
+	}
+}
+
+void list :: show_list()
+{
+	node *temp = new node;
+	temp = head;
+	cout << temp->value << "\t";
+	while (temp->next != NULL)
+	{
+		temp = temp->next;
+		cout << temp->value << "\t";
+	}
+}
+
+void list :: delete_first() 
+{
+	node *temp = new node;
+	temp = head;
+	head = head->next;
+	delete temp;
+}
+
+void list :: delete_last()
+{
+	node *temp = new node;
+	temp = head;
+	while (temp->next != tail)
+	{
+		temp = temp->next;
+	}
+	temp = tail;
+	temp = temp->next;
+	delete temp;
+	tail->next = NULL;
+}
+
+void list :: insert_start(double input)
+{
+	node *temp = new node;
+	temp->value = input;
+	temp->next = head;
+	head = temp;
+}
+
+void list :: insert_last(double input)
+{
+	node *temp = new node;
+	tail->next = temp;
+	temp->value = input;
+	temp->next = NULL;
+}
+
+void list :: delete_position(int position)
+{
+	node *temp1 = new node;
+	node *temp2 = new node;
+
+	temp2 = head;
+	for (int i = 1; i < position; i++)
+	{
+		temp1 = temp2;
+		temp2 = temp2->next;
+		if (temp2 == tail)
+			break;
+	}
+	temp1->next = temp2->next;
+	delete temp2;
+}
+
+void list::insert_position(int position, double input)
+{
+		node * temp = new node;
+		temp->value = input;
+		temp->next = NULL;
+
+		if (position == 1)
+		{
+			temp->next = head;
+			head = temp;
+		}
+		node * temp2 = head;
+		for (int i = 1; i < position - 1; i++)
+		{
+			temp2 = temp2->next;
+			if (temp2 == tail)
+			{
+				tail->next = temp;
+				break;
+			}
+		}
+		if (temp2 == tail)
+		{
+			tail->next = temp;
+		}
+		else
+		{
+			temp->next = temp2->next;
+			temp2->next = temp;
+		}
+}
+
+
+#include"Header.h"
+
+int main()
+{
+	int index;
+	list object;
+
+	object.createnode(95.00);
+	object.createnode(65.51);
+	object.createnode(32.06);
+	object.createnode(65.05);
+	object.createnode(56.20);
+
+
+	object.show_list();
+	cout << endl << endl;
+
+
+	object.insert_last(30.00);
+	object.show_list();
+	cout << endl << endl;
+
+
+	object.insert_start(10.00);
+	object.show_list();
+	cout << endl << endl;
+
+
+	object.delete_first();
+	object.show_list();
+	cout << endl << endl;
+
+
+	object.delete_last();
+	object.show_list();
+	cout << endl << endl;
+
+	index = 0;
+	cout << "Insert index of node to delete at: ";
+	cin >> index;
+	object.delete_position(index);
+	object.show_list();
+	cout << endl << endl;
+	
+	index = 0;
+	cout << "Insert index of node to add a new node: ";
+	cin >> index;
+	object.insert_position(index, 35.00);
+	object.show_list();
+	cout << endl << endl;
+
+
+	system("Pause");
+	return 0;
+}
